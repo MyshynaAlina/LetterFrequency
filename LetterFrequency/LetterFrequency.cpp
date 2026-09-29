@@ -11,6 +11,7 @@ int main()
 
     string text;
     string letters = "àáâã´äåºæçè³¿éêëìíîïğñòóôõö÷øùüşÿ";
+    string bigLetters = "ÀÁÂÃ¥ÄÅªÆÇÈ²¯ÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÜŞß";
 
     int count[33] = { 0 };
 
@@ -21,7 +22,7 @@ int main()
     {
         for (int j = 0; j < 33; j++)
         {
-            if (text[i] == letters[j])
+            if (text[i] == letters[j] || text[i] == bigLetters[j])
             {
                 count[j]++;
                 break;
