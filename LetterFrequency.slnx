@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="LetterFrequency/LetterFrequency.vcxproj" />
+  <Project Path="LetterFrequency/LetterFrequency.vcxproj" Id="076fb0f1-16da-4f37-b3c1-0dc4fa9f1be3" />
 </Solution>
