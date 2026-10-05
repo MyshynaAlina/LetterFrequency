@@ -3,5 +3,8 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
   <Project Path="LetterFrequency/LetterFrequency.vcxproj" Id="076fb0f1-16da-4f37-b3c1-0dc4fa9f1be3" />
 </Solution>
