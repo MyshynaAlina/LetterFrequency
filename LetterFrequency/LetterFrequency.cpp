@@ -14,9 +14,16 @@ int main()
     string bigLetters = "јЅ¬√•ƒ≈™∆«»≤ѓ… ЋћЌќѕ–—“”‘’÷„Ўў№ёя";
 
     int count[33] = { 0 };
+    bool hasLetters = false;
 
     cout << "¬вед≥ть текст дл€ анал≥зу: ";
     getline(cin, text);
+
+    if (text.empty())
+    {
+        cout << "ѕомилка: немаЇ тексту." << endl;
+        return 0;
+    }
 
     for (int i = 0; i < text.length(); i++) 
     {
@@ -25,9 +32,16 @@ int main()
             if (text[i] == letters[j] || text[i] == bigLetters[j])
             {
                 count[j]++;
+                hasLetters = true;
                 break;
             }
         }
+    }
+
+    if (hasLetters == false)
+    {
+        cout << "ѕомилка: немаЇ украњнських л≥тер." << endl;
+        return 0;
     }
 
     cout << endl;
