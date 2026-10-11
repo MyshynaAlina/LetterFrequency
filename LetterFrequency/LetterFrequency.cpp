@@ -6,13 +6,29 @@ using namespace std;
 
 void printDiagram(string letters, int count[])
 {
+    int maxCount = 0;
+
+    for (int i = 0; i < 33; i++)
+    {
+        if (count[i] > maxCount)
+        {
+            maxCount = count[i];
+        }
+    }
+
     for (int i = 0; i < 33; i++)
     {
         if (count[i] > 0)
         {
             cout << letters[i] << " ";
 
-            for (int j = 0; j < count[i]; j++)
+            int barLenght = count[i] * 50 / maxCount;
+
+            if (barLenght == 0)
+            {
+                barLenght = 1;
+            }
+            for (int j = 0; j < barLenght; j++)
             {
                 cout << "#";
             }
