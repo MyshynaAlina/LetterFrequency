@@ -4,6 +4,24 @@
 
 using namespace std;
 
+void printDiagram(string letters, int count[])
+{
+    for (int i = 0; i < 33; i++)
+    {
+        if (count[i] > 0)
+        {
+            cout << letters[i] << " ";
+
+            for (int j = 0; j < count[i]; j++)
+            {
+                cout << "#";
+            }
+
+            cout << " " << count[i] << endl;
+        }
+    }
+}
+
 int main()
 {
     SetConsoleCP(1251);
@@ -45,22 +63,7 @@ int main()
     }
 
     cout << endl;
-    cout << "" << endl;
-
-    for (int i = 0; i < 33; i++)
-    {
-        if (count[i] > 0)
-        {
-            cout << letters[i] << " ";
-
-            for (int j = 0; j < count[i]; j++)
-            {
-                cout << "#";
-            }
-
-            cout << " " << count[i] << endl;
-        }
-    }
+    printDiagram(letters, count);
 
     return 0;
 }
