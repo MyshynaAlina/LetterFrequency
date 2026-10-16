@@ -80,13 +80,38 @@ int main()
         cout << "Помилка: немає українських літер." << endl;
         return 0;
     }
-    int threshold;
+
+    string input;
+    int threshold = 0;
+    bool valid = true;
 
     cout << "Введіть порогове значення: ";
+    cin >> input;
 
-    if (!(cin >> threshold) || threshold < 1)
+    for (int i = 0; i < input.length(); i++)
     {
-        cout << "Порогове значення повинно бути додатним цілим числом." << endl;
+        if (input[i] < '0' || input[i] > '9')
+        {
+            valid = false;
+            break;
+        }
+    }
+
+    if (valid)
+    {
+        try
+        {
+            threshold = stoi(input);
+        }
+        catch (...)
+        {
+            valid = false;
+        }
+    }
+
+    if (!valid || threshold < 1)
+    {
+        cout << "Помилка: введіть додатне ціле число." << endl;
         return 0;
     }
 
