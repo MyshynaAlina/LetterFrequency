@@ -3,19 +3,20 @@
 #include <Windows.h>
 
 using namespace std;
+const int LETTER_COUNT = 33;
 
 void printDiagram(string letters, int count[], int threshold)
 {
     int maxCount = 0;
     bool found = false;
-    for (int i = 0; i < 33; i++)
+    for (int i = 0; i < LETTER_COUNT; i++)
     {
         if (count[i] >= threshold && count[i] > maxCount)
         {
             maxCount = count[i];
         }
     }
-    for (int i = 0; i < 33; i++)
+    for (int i = 0; i < LETTER_COUNT; i++)
     {
         if (count[i] > 0 && count[i] >= threshold)
         {
@@ -49,7 +50,7 @@ int main()
     string letters = "àáâã´äåºæçè³¿éêëìíîïğñòóôõö÷øùüşÿ";
     string bigLetters = "ÀÁÂÃ¥ÄÅªÆÇÈ²¯ÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÜŞß";
 
-    int count[33] = { 0 };
+    int count[LETTER_COUNT] = { 0 };
     bool hasLetters = false;
 
     cout << "Ââåä³òü òåêñò äëÿ àíàë³çó: ";
@@ -63,7 +64,7 @@ int main()
 
     for (int i = 0; i < text.length(); i++) 
     {
-        for (int j = 0; j < 33; j++)
+        for (int j = 0; j < LETTER_COUNT; j++)
         {
             if (text[i] == letters[j] || text[i] == bigLetters[j])
             {
