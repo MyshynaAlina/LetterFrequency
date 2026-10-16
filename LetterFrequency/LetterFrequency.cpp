@@ -18,7 +18,7 @@ void printDiagram(string letters, int count[], int threshold)
     }
     for (int i = 0; i < LETTER_COUNT; i++)
     {
-        if (count[i] > 0 && count[i] >= threshold)
+        if (count[i] >= threshold)
         {
             found = true;
             cout << letters[i] << " ";
