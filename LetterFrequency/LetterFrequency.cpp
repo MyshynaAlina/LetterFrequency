@@ -1,5 +1,9 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include "askiplot.hpp"
+
+#define NOMINMAX
 #include <Windows.h>
 
 using namespace std;
@@ -8,37 +12,90 @@ const int LETTER_COUNT = 33;
 void printDiagram(string letters, int count[], int threshold)
 {
     int maxCount = 0;
-    bool found = false;
-    for (int i = 0; i < LETTER_COUNT; i++)
-    {
-        if (count[i] >= threshold && count[i] > maxCount)
-        {
-            maxCount = count[i];
-        }
-    }
+    int selectedCount = 0;
+    
     for (int i = 0; i < LETTER_COUNT; i++)
     {
         if (count[i] >= threshold)
         {
-            found = true;
-            cout << letters[i] << " ";
-            int barLenght = count[i] * 50 / maxCount;
-            if (barLenght == 0)
+            selectedCount++;
+
+            if (count[i] > maxCount)
             {
-                barLenght = 1;
+                maxCount = count[i];
             }
-            for (int j = 0; j < barLenght; j++)
-            {
-                cout << "#";
-            }
-            cout << " " << count[i] << endl;
         }
     }
-    if (found == false)
+
+    if (selectedCount == 0)
     {
         cout << "Немає літер із заданою частотою." << endl;
+        return;
     }
-    
+
+    const int plotWidth = 80;
+    const int plotHeight = 22;
+    const int maxBarHeight = 16;
+    vector<askiplot::Bar> bars;
+
+    int barIndex = 0;
+
+    for (int i = 0; i < LETTER_COUNT; i++)
+    {
+        if (count[i] >= threshold)
+        {
+            int column = barIndex * plotWidth / selectedCount;
+            int nextColumn = (barIndex + 1) * plotWidth / selectedCount;
+            int slotWidth = nextColumn - column;
+
+            int barWidth = slotWidth / 4;
+            if (barWidth < 1) {
+                barWidth = 1;
+            }
+
+            column += (slotWidth - barWidth) / 2;
+
+            int barHeight = count[i] * maxBarHeight / maxCount;
+            
+            if (barHeight < 1)
+            {
+                barHeight = 1;
+            }
+
+            askiplot::Bar bar;
+            bar.SetName(to_string(barIndex + 1));
+            bar.SetColumn(column);
+            bar.SetWidth(barWidth);
+            bar.SetHeight(barHeight);
+            bar.SetBrush(askiplot::Brush('#'));
+            bar.SetEmpty(false);
+            bars.push_back(bar);
+
+            barIndex++;
+        }
+    }
+    askiplot::BarPlot diagram(plotWidth, plotHeight);
+    diagram.PlotBars(bars);
+    diagram.DrawBarLabels(askiplot::Offset(0, 1));
+
+    cout << diagram.Serialize() << endl;
+
+    cout << "Кількість входжень:" << endl;
+
+    int printed = 0;
+    for (int i = 0; i < LETTER_COUNT; i++) {
+        if (count[i] >= threshold) {
+            printed++;
+            cout << printed << " - " << letters[i] << ": " << count[i] << "\t";
+
+            if (printed % 6 == 0) {
+                cout << endl;
+            }
+        }
+    }
+    if (printed % 6 != 0) {
+        cout << endl;
+    }
 }
 
 int main()

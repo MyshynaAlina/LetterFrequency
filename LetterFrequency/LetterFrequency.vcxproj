@@ -141,6 +141,9 @@
   <ItemGroup>
     <ClCompile Include="LetterFrequency.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="askiplot.hpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
