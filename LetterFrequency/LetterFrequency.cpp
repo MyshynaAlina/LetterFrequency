@@ -2,12 +2,44 @@
 #include <string>
 #include <vector>
 #include "askiplot.hpp"
+#include <algorithm>
+#include <cmath>
 
 #define NOMINMAX
 #include <Windows.h>
 
 using namespace std;
 const int LETTER_COUNT = 33;
+
+vector<int> scaleColumns(const vector<int>& values, int maxLength)
+{
+    vector<int> result;
+
+    if (values.empty())
+        return result;
+
+    int maxValue = *max_element(values.begin(), values.end());
+
+    // Якщо всі значення дорівнюють нулю
+    if (maxValue == 0)
+    {
+        result.resize(values.size(), 0);
+        return result;
+    }
+
+    // Масштабування довжин стовпчиків
+    for (int value : values)
+    {
+        int length = round(
+            (double)value / maxValue * maxLength
+        );
+
+        result.push_back(length);
+    }
+
+    return result;
+}
+
 
 void printDiagram(string letters, int count[], int threshold)
 {
