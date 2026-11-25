@@ -4,6 +4,7 @@
 #include "askiplot.hpp"
 #include <algorithm>
 #include <cmath>
+#include <stdexcept>
 
 #define NOMINMAX
 #include <Windows.h>
@@ -13,7 +14,15 @@ const int LETTER_COUNT = 33;
 
 vector<int> scaleColumns(const vector<int>& values, int maxLength)
 {
+    if (maxLength < 1 || maxLength > 80)
+        throw invalid_argument("Недопустима довжина стовпчика.");
     vector<int> result;
+
+    for (int value : values)
+    {
+        if (value < 0 || value > 1000000)
+            throw invalid_argument("Недопустиме значення частоти.");
+    }
 
     if (values.empty())
         return result;
@@ -33,18 +42,20 @@ vector<int> scaleColumns(const vector<int>& values, int maxLength)
         int length = round(
             (double)value / maxValue * maxLength
         );
-
+        if (value > 0 && length == 0)
+        {
+            length = 1;
+        }
         result.push_back(length);
     }
 
     return result;
 }
 
-
 void printDiagram(string letters, int count[], int threshold)
 {
-    int maxCount = 0;
     int selectedCount = 0;
+    vector<int> selectedValues;
     
     for (int i = 0; i < LETTER_COUNT; i++)
     {
@@ -52,10 +63,7 @@ void printDiagram(string letters, int count[], int threshold)
         {
             selectedCount++;
 
-            if (count[i] > maxCount)
-            {
-                maxCount = count[i];
-            }
+            selectedValues.push_back(count[i]);
         }
     }
 
@@ -66,9 +74,11 @@ void printDiagram(string letters, int count[], int threshold)
     }
 
     const int plotWidth = 80;
-    const int plotHeight = 22;
-    const int maxBarHeight = 16;
+    const int maxBarHeight = 50;
+    const int plotHeight = maxBarHeight + 2;
     vector<askiplot::Bar> bars;
+
+    vector<int> scaledHeights = scaleColumns(selectedValues, maxBarHeight);
 
     int barIndex = 0;
 
@@ -87,12 +97,7 @@ void printDiagram(string letters, int count[], int threshold)
 
             column += (slotWidth - barWidth) / 2;
 
-            int barHeight = count[i] * maxBarHeight / maxCount;
-            
-            if (barHeight < 1)
-            {
-                barHeight = 1;
-            }
+            int barHeight = scaledHeights[barIndex];
 
             askiplot::Bar bar;
             bar.SetName(to_string(barIndex + 1));
